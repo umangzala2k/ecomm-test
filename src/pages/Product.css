@@ -1,0 +1,58 @@
+/* Product.css: Styles for Product details page size selection */
+
+.product-size-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.product-size-btn {
+  border-radius: 20px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  min-width: 60px;
+  height: 56px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  background: #fff;
+  border: 2px solid #222;
+  transition: all 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.product-size-btn.selected,
+.product-size-btn.default-selected {
+  background: #1565c0;
+  color: #fff;
+  border: 2.5px solid #1565c0;
+}
+
+.product-size-btn.unavailable {
+  background: #f8f9fa;
+  color: #bdbdbd;
+  border: 2px solid #d3d3d3;
+  cursor: pointer;
+}
+
+.product-size-btn:not(.selected):not(.default-selected):not(.unavailable):hover {
+  border: 2px solid #1565c0;
+  background: #f0f7ff;
+  color: #1565c0;
+}
+
+.size-buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 1rem;
+}
+
+.size-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.1;
+} 

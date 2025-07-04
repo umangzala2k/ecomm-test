@@ -12,11 +12,15 @@ const Cart = () => {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-md-12 py-5 bg-light text-center">
-            <h4 className="p-3 display-5"> Your Cart is Empty </h4>
-            <Link to="/" className="btn  btn-outline-dark mx-4">
-              <i className="fa fa-arrow-left"></i> Continue Shopping
-            </Link>
+          <div className="col-12 py-5 bg-light text-center rounded">
+            <div className="py-5">
+              <i className="fas fa-shopping-cart fa-3x text-muted mb-4"></i>
+              <h4 className="display-6 mb-4">Your Cart is Empty</h4>
+              <p className="text-muted mb-4">Add some products to your cart to get started!</p>
+              <Link to="/" className="btn btn-dark btn-lg">
+                <i className="fa fa-arrow-left me-2"></i> Continue Shopping
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -26,6 +30,7 @@ const Cart = () => {
   const addItem = (product) => {
     dispatch(addCart(product));
   };
+  
   const removeItem = (product) => {
     dispatch(delCart(product));
   };
@@ -34,6 +39,7 @@ const Cart = () => {
     let subtotal = 0;
     let shipping = 30.0;
     let totalItems = 0;
+    
     state.map((item) => {
       return (subtotal += item.price * item.qty);
     });
@@ -41,122 +47,136 @@ const Cart = () => {
     state.map((item) => {
       return (totalItems += item.qty);
     });
+    
     return (
       <>
-        <section className="h-100 gradient-custom">
-          <div className="container py-5">
-            <div className="row d-flex justify-content-center my-4">
-              <div className="col-md-8">
-                <div className="card mb-4">
-                  <div className="card-header py-3">
-                    <h5 className="mb-0">Item List</h5>
-                  </div>
-                  <div className="card-body">
-                    {state.map((item) => {
-                      return (
-                        <div key={item.id}>
-                          <div className="row d-flex align-items-center">
-                            <div className="col-lg-3 col-md-12">
-                              <div
-                                className="bg-image rounded"
-                                data-mdb-ripple-color="light"
-                              >
-                                <img
-                                  src={item.image}
-                                  // className="w-100"
-                                  alt={item.title}
-                                  width={100}
-                                  height={75}
-                                />
-                              </div>
-                            </div>
-
-                            <div className="col-lg-5 col-md-6">
-                              <p>
-                                <strong>{item.title}</strong>
-                              </p>
-                              {/* <p>Color: blue</p>
-                              <p>Size: M</p> */}
-                            </div>
-
-                            <div className="col-lg-4 col-md-6">
-                              <div
-                                className="d-flex mb-4"
-                                style={{ maxWidth: "300px" }}
-                              >
-                                <button
-                                  className="btn px-3"
-                                  onClick={() => {
-                                    removeItem(item);
-                                  }}
-                                >
-                                  <i className="fas fa-minus"></i>
-                                </button>
-
-                                <p className="mx-5">{item.qty}</p>
-
-                                <button
-                                  className="btn px-3"
-                                  onClick={() => {
-                                    addItem(item);
-                                  }}
-                                >
-                                  <i className="fas fa-plus"></i>
-                                </button>
-                              </div>
-
-                              <p className="text-start text-md-center">
-                                <strong>
-                                  <span className="text-muted">{item.qty}</span>{" "}
-                                  x ${item.price}
-                                </strong>
-                              </p>
-                            </div>
+        <div className="container py-4">
+          <div className="row g-4">
+            {/* Cart Items */}
+            <div className="col-lg-8 col-md-12">
+              <div className="card shadow-sm">
+                <div className="card-header bg-white py-3">
+                  <h5 className="mb-0 fw-bold">
+                    <i className="fas fa-shopping-cart me-2"></i>
+                    Shopping Cart ({totalItems} items)
+                  </h5>
+                </div>
+                <div className="card-body p-0">
+                  {state.map((item) => (
+                    <div key={item.id} className="cart-item p-3 border-bottom">
+                      <div className="row align-items-center g-3">
+                        {/* Product Image */}
+                        <div className="col-md-3 col-sm-4 col-6">
+                          <div className="product-image-container text-center">
+                            <img
+                              src={item.image}
+                              alt={item.title}
+                              className="img-fluid rounded"
+                              style={{
+                                maxHeight: '100px',
+                                objectFit: 'contain',
+                                width: '100%'
+                              }}
+                            />
                           </div>
-
-                          <hr className="my-4" />
                         </div>
-                      );
-                    })}
-                  </div>
+
+                        {/* Product Details */}
+                        <div className="col-md-4 col-sm-8 col-6">
+                          <div className="product-details">
+                            <h6 className="fw-bold mb-2" style={{
+                              fontSize: '0.9rem',
+                              lineHeight: '1.3',
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden'
+                            }}>
+                              {item.title}
+                            </h6>
+                            <p className="text-primary fw-bold mb-0">${item.price}</p>
+                          </div>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="col-md-3 col-sm-6 col-12">
+                          <div className="quantity-controls d-flex align-items-center justify-content-center">
+                            <button
+                              className="btn btn-outline-secondary btn-sm"
+                              onClick={() => removeItem(item)}
+                              style={{ minWidth: '40px' }}
+                            >
+                              <i className="fas fa-minus"></i>
+                            </button>
+                            <span className="mx-3 fw-bold">{item.qty}</span>
+                            <button
+                              className="btn btn-outline-secondary btn-sm"
+                              onClick={() => addItem(item)}
+                              style={{ minWidth: '40px' }}
+                            >
+                              <i className="fas fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Total Price */}
+                        <div className="col-md-2 col-sm-6 col-12">
+                          <div className="text-end">
+                            <p className="fw-bold mb-0">${(item.price * item.qty).toFixed(2)}</p>
+                            <small className="text-muted">{item.qty} x ${item.price}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="col-md-4">
-                <div className="card mb-4">
-                  <div className="card-header py-3 bg-light">
-                    <h5 className="mb-0">Order Summary</h5>
-                  </div>
-                  <div className="card-body">
-                    <ul className="list-group list-group-flush">
-                      <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                        Products ({totalItems})<span>${Math.round(subtotal)}</span>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                        Shipping
-                        <span>${shipping}</span>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                        <div>
-                          <strong>Total amount</strong>
-                        </div>
-                        <span>
-                          <strong>${Math.round(subtotal + shipping)}</strong>
-                        </span>
-                      </li>
-                    </ul>
+            </div>
 
-                    <Link
-                      to="/checkout"
-                      className="btn btn-dark btn-lg btn-block"
-                    >
-                      Go to checkout
-                    </Link>
+            {/* Order Summary */}
+            <div className="col-lg-4 col-md-12">
+              <div className="card shadow-sm sticky-top" style={{ top: '20px' }}>
+                <div className="card-header bg-white py-3">
+                  <h5 className="mb-0 fw-bold">
+                    <i className="fas fa-receipt me-2"></i>
+                    Order Summary
+                  </h5>
+                </div>
+                <div className="card-body">
+                  <div className="summary-item d-flex justify-content-between align-items-center mb-3">
+                    <span>Products ({totalItems})</span>
+                    <span className="fw-bold">${Math.round(subtotal)}</span>
                   </div>
+                  <div className="summary-item d-flex justify-content-between align-items-center mb-3">
+                    <span>Shipping</span>
+                    <span className="fw-bold">${shipping}</span>
+                  </div>
+                  <hr />
+                  <div className="summary-item d-flex justify-content-between align-items-center mb-4">
+                    <span className="fw-bold fs-5">Total Amount</span>
+                    <span className="fw-bold fs-5 text-primary">${Math.round(subtotal + shipping)}</span>
+                  </div>
+
+                  <Link
+                    to="/checkout"
+                    className="btn btn-dark w-100 btn-lg mb-3"
+                  >
+                    <i className="fas fa-credit-card me-2"></i>
+                    Proceed to Checkout
+                  </Link>
+                  
+                  <Link
+                    to="/"
+                    className="btn btn-outline-dark w-100"
+                  >
+                    <i className="fas fa-arrow-left me-2"></i>
+                    Continue Shopping
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </>
     );
   };
@@ -164,9 +184,16 @@ const Cart = () => {
   return (
     <>
       <Navbar />
-      <div className="container my-3 py-3">
-        <h1 className="text-center">Cart</h1>
-        <hr />
+      <div className="container my-4">
+        <div className="row">
+          <div className="col-12">
+            <h1 className="text-center mb-4">
+              <i className="fas fa-shopping-cart me-3"></i>
+              Shopping Cart
+            </h1>
+            <hr className="mb-4" />
+          </div>
+        </div>
         {state.length > 0 ? <ShowCart /> : <EmptyCart />}
       </div>
       <Footer />
